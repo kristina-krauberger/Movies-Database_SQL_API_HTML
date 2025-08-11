@@ -3,12 +3,12 @@ Generate a static HTML page for the Movie app.
 
 This module reads movie data, renders per-movie HTML snippets, replaces
 placeholders in the template, and writes the final page to
-`_static/index.html`.
+`static/index.html`.
 """
 
-from movie_storage_sql import list_movies
+from storage.movie_storage_sql import list_movies
+from config.settings import HOMEPAGE_TITLE, TEMPLATE_PATH, OUTPUT_PATH, PH_TITLE, PH_MOVIE_GRID
 
-HOMEPAGE_TITLE = "MY MOVIE APP"
 
 def replace_template_placeholder(template, placeholder, replaced_text):
     """
@@ -80,10 +80,10 @@ def main():
     """
     movies_data = list_movies()
     movie_info = show_all_movies(movies_data)
-    html = load_html_template("_static/index_template.html")
-    html_with_title = replace_template_placeholder(html,"__TEMPLATE_TITLE__", HOMEPAGE_TITLE)
-    final_html = replace_template_placeholder(html_with_title, "__TEMPLATE_MOVIE_GRID__", movie_info)
-    safe_to_file(final_html, "_static/index.html")
+    html = load_html_template(TEMPLATE_PATH)
+    html_with_title = replace_template_placeholder(html,PH_TITLE, HOMEPAGE_TITLE)
+    final_html = replace_template_placeholder(html_with_title, PH_MOVIE_GRID, movie_info)
+    safe_to_file(final_html, OUTPUT_PATH)
     print("Website was successfully generated.")
 
 if __name__ == "__main__":

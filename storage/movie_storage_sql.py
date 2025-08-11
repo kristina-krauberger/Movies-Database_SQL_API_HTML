@@ -6,10 +6,8 @@ functions to list, add, delete and update movies.
 """
 
 from sqlalchemy import create_engine, text
-from ombd_client import fetch_movie_data
-
-# Database connection URL (relative SQLite file in the project root)
-DB_URL = "sqlite:///movies.db"
+from data.ombd_client import fetch_movie_data
+from config.settings import DB_URL
 
 # Create the engine (echo=True logs SQL statements for debugging)
 engine = create_engine(DB_URL, echo=True)

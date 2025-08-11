@@ -6,9 +6,9 @@ show basic statistics, and generate a static website from the stored data.
 
 import random
 import statistics
-from ombd_client import fetch_movie_data
-import movie_storage_sql as storage
 from datetime import datetime
+from data.ombd_client import fetch_movie_data
+import storage.movie_storage_sql as storage
 from website_generator import main as generate_website
 
 MIN_YEAR = 1895

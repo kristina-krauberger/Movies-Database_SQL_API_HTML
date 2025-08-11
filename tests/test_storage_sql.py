@@ -3,7 +3,7 @@ This module contains tests for the SQL storage functions for movies.
 It exercises the add_movie, list_movies, update_movie, and delete_movie
 functions to ensure proper CRUD operations on the movie database.
 """
-from movie_storage_sql import add_movie, list_movies, delete_movie, update_movie
+from storage.movie_storage_sql import add_movie, list_movies, delete_movie, update_movie
 
 
 def test_add_movie():
