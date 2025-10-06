@@ -10,7 +10,7 @@ from data.ombd_client import fetch_movie_data
 from config.settings import DB_URL
 
 # Create the engine (echo=True logs SQL statements for debugging)
-engine = create_engine(DB_URL, echo=True)
+engine = create_engine(DB_URL, echo=False)
 
 # Create the movies table if it does not exist
 with engine.connect() as connection:
@@ -73,7 +73,7 @@ def delete_movie(title):
     """
     with engine.connect() as connection:
         try:
-            connection.execute(
+            result = connection.execute(
                 text(
                     """DELETE FROM movies 
                     WHERE title = :title"""
@@ -81,7 +81,10 @@ def delete_movie(title):
                     {"title": title}
             )
             connection.commit()
-            print(f"Movie '{title}' was successfully deleted")
+            if result.rowcount == 0:
+                print(f"⚠️Movie '{title}' not found in database")
+            else:
+                print(f"Movie '{title}' was successfully deleted")
         except Exception as e:
             print(f"Error: {e}")
 
@@ -95,7 +98,7 @@ def update_movie(title, rating):
     """
     with engine.connect() as connection:
         try:
-            connection.execute(
+            result = connection.execute(
                 text(
                     """UPDATE movies 
                     SET rating = :rating 
@@ -104,6 +107,9 @@ def update_movie(title, rating):
                     {"title": title.lower(), "rating": rating}
             )
             connection.commit()
-            print(f"Movie '{title}' was successfully updated")
+            if result.rowcount == 0:
+                print(f"⚠️Movie '{title}' not found in database")
+            else:
+                print(f"Movie '{title}' was successfully updated")
         except Exception as e:
             print(f"Error: {e}")
